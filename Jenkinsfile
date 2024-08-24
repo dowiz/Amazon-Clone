@@ -4,7 +4,7 @@ pipeline  {
     agent any;
     stages {
         
-         stage("Backup files")
+         stage("Hostname")
          {
              steps{
                 sh """
