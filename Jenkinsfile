@@ -23,7 +23,7 @@ pipeline
         stage ("Remove all containers and images"){
             steps{
                 sh'''#!/bin/sh
-                /var/lib/jenkins/workspace/Build%20Site/delete.sh
+                /home/dowiz/delete.sh
                 '''
             }
         }
