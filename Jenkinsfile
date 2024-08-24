@@ -20,5 +20,12 @@ pipeline
                 sh "find FrontEnd/my-app/ -type f -exec sed  -i 's#http://localhost:5034#https://20.93.19.255/api#g' {} +"
             }
         }
+        stage ("Remove all containers and images"){
+            steps{
+                sh'''#!/bin/sh
+                sudo /home/azureuser/delete.sh
+                '''
+            }
+        }
     }
 }
