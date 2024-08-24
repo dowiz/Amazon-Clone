@@ -19,5 +19,11 @@ pipeline  {
                 sh "find FrontEnd/my-app/ -type f -exec sed  -i 's#http://localhost:5034#https://10.20.34.102/api#g' {} +"
              }
          }
+         stage("Change IP in appsettings.json")
+         {
+             steps{
+                sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#http://localhost:81#https://10.20.34.102/#g' {} +"
+             }
+         }
     }
 }
