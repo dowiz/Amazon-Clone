@@ -1,31 +1,41 @@
 #!groovy
 //  groovy Jenkinsfile
-pipeline
-{
+pipeline  {
     agent any;
-    stages 
-    {
-        stage("Hostname")
-        {
-            steps{
+    stages {
+        
+         stage("Backup files")
+         {
+             steps{
                 sh """
                 #!/bin/bash
                 hostname
                 """
-            }
-        }
+             }
+         }
         stage("Change IP in axios.js")
-        {
-            steps{
-                sh "find FrontEnd/my-app/ -type f -exec sed  -i 's#http://localhost:5034#https://20.93.19.255/api#g' {} +"
-            }
+         {
+             steps{
+                sh "find FrontEnd/my-app/ -type f -exec sed  -i 's#http://localhost:5034#https://20.123.63.128/api#g' {} +"
+             }
+         }
+         stage("Change IP in appsettings.json")
+         {
+             steps{
+                sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#http://localhost:81#https://20.123.63.128/#g' {} +"
+             }
+         }
+         stage ("Remove all containers and images"){
+             steps{
+               sh'''#!/bin/sh 
+            bash delete.sh -y
+ '''
+             }
         }
-        stage ("Remove all containers and images"){
-            steps{
-                sh'''#!/bin/sh
-                /home/dowiz/delete.sh
-                '''
-            }
+         stage ("Remove docker cache"){
+         steps{
+            sh "docker system prune -af"
+         }   
         }
     }
 }
