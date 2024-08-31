@@ -45,7 +45,7 @@ pipeline  {
         stage("Create frontend docker image") {
             steps {
                 echo 'Creating frontend docker image ...'
-                sh " docker build --no-cache -t macnaer/amazon-clone-frontend   . "                
+                sh "cd FrontEnd/my-app && docker build --no-cache -t macnaer/amazon-clone-frontend   . "                
             }
         }
     }
