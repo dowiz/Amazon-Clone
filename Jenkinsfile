@@ -51,7 +51,7 @@ pipeline  {
          stage("Create backend docker image") {
             steps {
                 echo 'Creating backend docker image ...'
-                sh " cd Amazon-Clone/BackEnd/Amazon-clone/ && docker build --no-cache -t macnaer/amazon-clone-backend  . "
+                sh " cd BackEnd/Amazon-clone/ && docker build --no-cache -t macnaer/amazon-clone-backend  . "
             }
         }
          stage("docker frontend run") {
