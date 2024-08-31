@@ -28,7 +28,7 @@ pipeline  {
          stage ("Remove all containers and images"){
              steps{
                sh'''#!/bin/sh 
-            bash delete.sh
+            bash delete.sh -S
  '''
              }
         }
