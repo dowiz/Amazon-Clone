@@ -25,4 +25,4 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 EXPOSE 5034
-ENTRYPOINT ["dotnet", "ShopApi.dll","--urls","http://0.0.0.0:5034"]
+ENTRYPOINT ["dotnet", "ShopApi.dll","--urls","http://0.0.0.0:80"]
