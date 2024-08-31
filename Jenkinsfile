@@ -54,5 +54,21 @@ pipeline  {
                 sh " cd Amazon-Clone/BackEnd/Amazon-clone/ && docker build --no-cache -t macnaer/amazon-clone-backend  . "
             }
         }
+         stage("docker frontend run") {
+             steps {
+                 echo " ============== Creating frontend docker container =================="
+                 sh '''
+                 docker run -d --restart=always -p 80:80 --name=frontend macnaer/amazon-clone-frontend
+                 '''
+             }
+         }
+        stage("docker backend run") {
+             steps {
+                 echo " ============== Creating backend docker container =================="
+                 sh '''
+                 docker run -d --restart=always -p 5034:5034 --name=backend macnaer/amazon-clone-backend
+                 '''
+             }
+        }
     }
 }
