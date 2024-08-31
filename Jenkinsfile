@@ -48,5 +48,11 @@ pipeline  {
                 sh "cd FrontEnd/my-app && docker build --no-cache -t dowiz/frontend   . "                
             }
         }
+        stage("Create backend docker image") {
+            steps {
+                echo 'Creating backend docker image ...'
+                sh " cd BackEnd/Amazon-clone/ && docker build --no-cache -t dowiz/backend  . "
+            }
+        }
     }
 }
