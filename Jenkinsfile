@@ -30,6 +30,7 @@ pipeline  {
                sh'''#!/bin/sh 
             sudo bash delete.sh
  '''
+             }
         }
     }
 }
