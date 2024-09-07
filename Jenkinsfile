@@ -45,8 +45,8 @@ pipeline  {
         }
          stage ("Run MSSQL container"){
             steps{
-                withCredentials([string(credentialsId: 'MSSQL-PASSWORD', variable: 'MSSQL-PASSWORD')]){
-                    sh 'docker run  --restart=always -v /home/db:/var/opt/mssql -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=$MSSQL-PASSWORD" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest'
+                withCredentials([string(credentialsId: 'MSSQL-PASSWORD', variable: 'MSSQLPASSWORD')]){
+                    sh 'docker run  --restart=always -v /home/db:/var/opt/mssql -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=$MSSQLPASSWORD" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest'
                 }
             }
         }
