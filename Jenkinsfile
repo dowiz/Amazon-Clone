@@ -76,5 +76,31 @@ pipeline  {
                  '''
              }
         }
+        stage("docker login") {
+            steps {
+                echo " ============== docker login =================="
+                withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh '''
+                    docker login -u $USERNAME -p $PASSWORD
+                    '''
+                }
+            }
+        }
+        stage("docker frontend push") {
+            steps {
+                echo " ============== pushing amazon-clone-frontend image =================="
+                sh '''
+                docker push macnaer/amazon-clone-frontend
+                '''
+            }
+        }
+        stage("docker backend push") {
+            steps {
+                echo " ============== pushing amazon-clone-backend image =================="
+                sh '''
+                docker push macnaer/amazon-clone-backend
+                '''
+            }
+        }
     }
 }
