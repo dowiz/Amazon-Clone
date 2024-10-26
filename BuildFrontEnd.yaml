@@ -4,11 +4,6 @@ pipeline  {
     agent any;
     stages {
         
-         stage ("Remove docker cache"){
-         steps{
-            sh "docker system prune -af"
-         }   
-        }
         stage("Create frontend docker image") {
             steps {
                 echo 'Creating frontend docker image ...'
