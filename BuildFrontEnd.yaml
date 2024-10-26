@@ -10,20 +10,12 @@ pipeline  {
                 sh "cd FrontEnd/my-app && sudo docker build --no-cache -t macnaer/amazon-clone-frontend   . "                
             }
         }
-         stage("docker frontend run") {
-             steps {
-                 echo " ============== Creating frontend docker container =================="
-                 sh '''
-                 docker run -d --restart=always -p 80:80 --name=frontend macnaer/amazon-clone-frontend
-                 '''
-             }
-         }
         stage("docker login") {
             steps {
                 echo " ============== docker login =================="
                 withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh '''
-                    docker login -u $USERNAME -p $PASSWORD
+                    sudo docker login -u $USERNAME -p $PASSWORD
                     '''
                 }
             }
@@ -32,7 +24,7 @@ pipeline  {
             steps {
                 echo " ============== pushing amazon-clone-frontend image =================="
                 sh '''
-                docker push macnaer/amazon-clone-frontend
+                sudo docker push macnaer/amazon-clone-frontend
                 '''
             }
         }
