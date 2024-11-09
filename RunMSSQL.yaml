@@ -7,6 +7,7 @@ pipeline  {
          {
              steps{
                 sh '''
+                whoami
                   mkdir /opt/mssql
                   chmod 777 /opt/mssql/
                 '''
