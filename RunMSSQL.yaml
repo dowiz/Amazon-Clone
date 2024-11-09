@@ -8,8 +8,8 @@ pipeline  {
              steps{
                 sh '''
                 whoami
-                  mkdir /home/db
-                  chmod 777 /home/db/
+                  sudo mkdir /home/db
+                  sudo chmod 777 /home/db/
                 '''
              }
             
