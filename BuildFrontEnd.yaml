@@ -15,7 +15,7 @@ pipeline  {
                 echo " ============== docker login =================="
                 withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh '''
-                    sudo docker login -u $USERNAME -p $PASSWORD
+                    docker login -u $USERNAME -p $PASSWORD
                     '''
                 }
             }
@@ -24,7 +24,7 @@ pipeline  {
             steps {
                 echo " ============== pushing amazon-clone-frontend image =================="
                 sh '''
-                sudo docker push macnaer/amazon-clone-frontend
+                docker push macnaer/amazon-clone-frontend
                 '''
             }
         }
