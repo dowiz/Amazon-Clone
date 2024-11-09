@@ -7,8 +7,8 @@ pipeline  {
          {
              steps{
                 sh '''
-                  sudo mkdir /opt/mssql
-                  sudo chmod 777 /opt/mssql/
+                  mkdir /opt/mssql
+                  chmod 777 /opt/mssql/
                 '''
              }
             
