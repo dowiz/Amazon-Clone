@@ -3,7 +3,7 @@
 pipeline  {
     agent any;
     stages {
-        stage("Running MSSQL")
+        stage("Preparing to run MSSQL")
          {
              steps{
                 sh '''
@@ -11,7 +11,11 @@ pipeline  {
                   sudo chmod 777 /opt/mssql/
                 '''
              }
-              steps{
+            
+         }
+          stage("Running MSSQL")
+         {
+           steps{
                   withCredentials([string(credentialsId: 'MSSQL-PASSWORD',  variable: 'PASSWD')]){
                 sh 'docker run  --restart=always -v /home/db:/var/opt/mssql -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=$PASSWD" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest'
                   }
