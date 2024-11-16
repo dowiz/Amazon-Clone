@@ -35,7 +35,7 @@ pipeline  {
             steps {
                 echo " ============== pushing amazon-clone-frontend image =================="
                 sh '''
-                docker push macnaer/amazon-clone-frontend
+                docker push  macnaer/amazon-clone-backend
                 '''
             }
         }
