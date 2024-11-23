@@ -7,9 +7,7 @@ pipeline  {
          {
              steps{
                 withCredentials([string(credentialsId: 'IP_ADDRESS',  variable: 'IP')]){
-                    sh '''
-                    find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#http://localhost:81#https://${IP}/#g' {} +
-                    '''
+                    sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#http://localhost:81#https://${IP}/#g' {} +"
                 }
              }
          }
@@ -17,9 +15,7 @@ pipeline  {
          {
              steps{
                 withCredentials([string(credentialsId: 'IP_ADDRESS',  variable: 'IP')]){
-                    sh '''
-                    find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Server=20.240.61.200#Server=${IP}#g' {} +
-                    '''
+                    sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Server=20.240.61.200#Server=${IP}#g' {} +"
                 }
              }
          }
@@ -27,9 +23,7 @@ pipeline  {
          {
              steps{
                 withCredentials([string(credentialsId: 'MSSQL-PASSWORD',  variable: 'PASSWD')]){
-                    sh '''
-                    find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Password=Qwerty-1#Password=${PASSWD}#g' {} +
-                    '''
+                    sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Password=Qwerty-1#Password=${PASSWD}#g' {} +"
                 }
              }
          }
