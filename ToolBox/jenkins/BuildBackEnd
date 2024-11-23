@@ -26,7 +26,9 @@ pipeline  {
         stage("Create backend docker image") {
             steps {
                 echo 'Creating backend docker image ...'
-                sh " cd BackEnd/Amazon-clone/ && docker build --no-cache -t dowiz/amazon-clone-backend  . "
+                withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME')]) {
+                    sh " cd BackEnd/Amazon-clone/ && docker build --no-cache -t $USERNAME/amazon-clone-backend  . "
+                }
             }
         }
         stage("docker login") {
@@ -42,9 +44,11 @@ pipeline  {
         stage("docker backend push") {
             steps {
                 echo " ============== pushing amazon-clone-backend image =================="
-                sh '''
-                docker push dowiz/amazon-clone-backend
-                '''
+                withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME')]) {
+                    sh '''
+                    docker push $USERNAME/amazon-clone-backend
+                    '''
+                }
             }
         }
     }
