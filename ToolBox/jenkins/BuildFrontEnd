@@ -1,36 +1,40 @@
 #!groovy
-//  groovy Jenkinsfile
-pipeline  {
+// groovy Jenkinsfile
+pipeline {
     agent any;
     stages {
         stage("Change IP in axios.js")
-         {
-             steps{
-                sh "find FrontEnd/my-app/ -type f -exec sed  -i 's#http://localhost:5034#http://51.20.87.241:5034#g' {} +"
-             }
-         }
-        stage("Create frontend docker image") {
+        {
             steps {
-                echo 'Creating frontend docker image ...'
-                sh "cd FrontEnd/my-app &&  docker build --no-cache -t macnaer/amazon-clone-frontend   . "                
+                withCredentials([string(credentialsId: 'IP_ADDRESS',  variable: 'IP')]){
+                    sh "find FrontEnd/my-app/ -type f -exec sed  -i 's#http://localhost:5034#http://${IP}:5034#g' {} +"
+                }
             }
         }
-        stage("docker login") {
+        stage("Create frontend docker image") 
+        {
+            steps {
+                echo 'Creating frontend docker image ...'
+                withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh 'cd FrontEnd/my-app && docker build --no-cache -t ${USERNAME}/amazon-clone-frontend .'
+                }
+            }
+        }
+        stage("docker login") 
+        {
             steps {
                 echo " ============== docker login =================="
                 withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh '''
-                    docker login -u $USERNAME -p $PASSWORD
-                    '''
+                    sh 'docker login -u $USERNAME -p $PASSWORD'
                 }
             }
         }
         stage("docker frontend push") {
             steps {
-                echo " ============== pushing amazon-clone-frontend image =================="
-                sh '''
-                docker push macnaer/amazon-clone-frontend
-                '''
+                echo "============== pushing amazon-clone-frontend image =================="
+                withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh 'docker push ${USERNAME}/amazon-clone-frontend'
+                }
             }
         }
     }
