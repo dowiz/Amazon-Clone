@@ -34,6 +34,7 @@ pipeline {
                 echo "============== pushing amazon-clone-frontend image =================="
                 withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh 'docker push ${USERNAME}/amazon-clone-frontend'
+                }
             }
         }
     }
