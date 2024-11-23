@@ -8,7 +8,7 @@ pipeline  {
              steps{
                 withCredentials([string(credentialsId: 'IP_ADDRESS',  variable: 'IP')]){
                     sh '''
-                    find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#http://localhost:81#https://$IP/#g' {} +
+                    find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#http://localhost:81#https://${IP}/#g' {} +
                     '''
                 }
              }
@@ -18,7 +18,7 @@ pipeline  {
              steps{
                 withCredentials([string(credentialsId: 'IP_ADDRESS',  variable: 'IP')]){
                     sh '''
-                    find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Server=20.240.61.200#Server=$IP#g' {} +
+                    find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Server=20.240.61.200#Server=${IP}#g' {} +
                     '''
                 }
              }
@@ -28,7 +28,7 @@ pipeline  {
              steps{
                 withCredentials([string(credentialsId: 'MSSQL-PASSWORD',  variable: 'PASSWD')]){
                     sh '''
-                    find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Password=Qwerty-1#Password=$PASSWD#g' {} +
+                    find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Password=Qwerty-1#Password=${PASSWD}#g' {} +
                     '''
                 }
              }
@@ -37,7 +37,7 @@ pipeline  {
             steps {
                 echo 'Creating backend docker image ...'
                 withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME')]) {
-                    sh 'cd BackEnd/Amazon-clone/ && docker build --no-cache -t $USERNAME/amazon-clone-backend  .'
+                    sh 'cd BackEnd/Amazon-clone/ && docker build --no-cache -t ${USERNAME}/amazon-clone-backend  .'
                 }
             }
         }
@@ -56,7 +56,7 @@ pipeline  {
                 echo " ============== pushing amazon-clone-backend image =================="
                 withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME')]) {
                     sh '''
-                    docker push $USERNAME/amazon-clone-backend
+                    docker push ${USERNAME}/amazon-clone-backend
                     '''
                 }
             }
