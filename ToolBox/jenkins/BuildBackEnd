@@ -7,7 +7,9 @@ pipeline  {
          {
              steps{
                 withCredentials([string(credentialsId: 'IP_ADDRESS',  variable: 'IP')]){
-                    sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#http://localhost:81#https://${IP}/#g' {} +"
+                    sh '''
+                    find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#http://localhost:81#https://${IP}/#g' {} +
+                    '''
                 }
              }
          }
@@ -15,7 +17,9 @@ pipeline  {
          {
              steps{
                 withCredentials([string(credentialsId: 'IP_ADDRESS',  variable: 'IP')]){
-                    sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Server=20.240.61.200#Server=${IP}#g' {} +"
+                    sh '''
+                    find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Server=20.240.61.200#Server=${IP}#g' {} +
+                    '''
                 }
              }
          }
@@ -23,7 +27,9 @@ pipeline  {
          {
              steps{
                 withCredentials([string(credentialsId: 'MSSQL-PASSWORD',  variable: 'PASSWD')]){
-                    sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Password=Qwerty-1#Password=${PASSWD}#g' {} +"
+                    sh '''
+                    find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Password=Qwerty-1#Password=${PASSWD}#g' {} +
+                    '''
                 }
              }
          }
@@ -31,7 +37,7 @@ pipeline  {
             steps {
                 echo 'Creating backend docker image ...'
                 withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh "cd BackEnd/Amazon-clone/ && docker build --no-cache -t ${USERNAME}/amazon-clone-backend  ."
+                    sh 'cd BackEnd/Amazon-clone/ && docker build --no-cache -t ${USERNAME}/amazon-clone-backend  .'
                 }
             }
         }
@@ -39,7 +45,7 @@ pipeline  {
             steps {
                 echo " ============== docker login =================="
                 withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh "docker login -u $USERNAME -p $PASSWORD"
+                    sh 'docker login -u $USERNAME -p $PASSWORD'
                 }
             }
         }
@@ -47,7 +53,7 @@ pipeline  {
             steps {
                 echo " ============== pushing amazon-clone-backend image =================="
                 withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh "docker push ${USERNAME}/amazon-clone-backend"
+                    sh 'docker push ${USERNAME}/amazon-clone-backend'
                 }
             }
         }
