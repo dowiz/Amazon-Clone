@@ -39,9 +39,9 @@ pipeline  {
                 }
             }
         }
-        stage("docker frontend push") {
+        stage("docker backend push") {
             steps {
-                echo " ============== pushing amazon-clone-frontend image =================="
+                echo " ============== pushing amazon-clone-backend image =================="
                 sh '''
                 docker push dowiz/amazon-clone-backend
                 '''
