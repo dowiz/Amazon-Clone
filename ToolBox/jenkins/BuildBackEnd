@@ -6,13 +6,13 @@ pipeline  {
        stage("Change IP in appsettings.json")
          {
              steps{
-                sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#http://localhost:81#https://13.60.235.29/#g' {} +"
+                sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#http://localhost:81#https://13.61.5.6/#g' {} +"
              }
          }
         stage("Change Database IP in appsettings.json")
          {
              steps{
-                sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Server=20.240.61.200#Server=13.60.235.29#g' {} +"
+                sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Server=20.240.61.200#Server=13.61.5.6#g' {} +"
              }
          }
         stage("Create backend docker image") {
