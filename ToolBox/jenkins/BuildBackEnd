@@ -6,19 +6,19 @@ pipeline  {
        stage("Change IP in appsettings.json")
          {
              steps{
-                sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#http://localhost:81#https://13.60.204.64/#g' {} +"
+                sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#http://localhost:81#https://13.51.69.245/#g' {} +"
              }
          }
         stage("Change Database IP in appsettings.json")
          {
              steps{
-                sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Server=20.240.61.200#Server=13.60.204.64#g' {} +"
+                sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Server=20.240.61.200#Server=13.51.69.245#g' {} +"
              }
          }
         stage("Create backend docker image") {
             steps {
                 echo 'Creating backend docker image ...'
-                sh " cd BackEnd/Amazon-clone/ && docker build --no-cache -t macnaer/amazon-clone-backend  . "
+                sh " cd BackEnd/Amazon-clone/ && docker build --no-cache -t dowiz/amazon-clone-backend  . "
             }
         }
         stage("docker login") {
@@ -35,7 +35,7 @@ pipeline  {
             steps {
                 echo " ============== pushing amazon-clone-frontend image =================="
                 sh '''
-                docker push  macnaer/amazon-clone-backend
+                docker push dowiz/amazon-clone-backend
                 '''
             }
         }
