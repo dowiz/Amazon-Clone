@@ -16,19 +16,19 @@ pipeline  {
         stage("Change IP in axios.js")
          {
              steps{
-                sh "find FrontEnd/my-app/ -type f -exec sed  -i 's#http://localhost:5034#http://13.60.68.164:5034#g' {} +"
+                sh "find FrontEnd/my-app/ -type f -exec sed  -i 's#http://localhost:5034#http://10.20.34.102:5034#g' {} +"
              }
          }
          stage("Change IP in appsettings.json")
          {
              steps{
-                sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#http://localhost:81#https://13.60.68.164#g' {} +"
+                sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#http://localhost:81#https://10.20.34.102/#g' {} +"
              }
          }
         stage("Change Database IP in appsettings.json")
          {
              steps{
-                sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Server=20.240.61.200#Server=13.60.68.164#g' {} +"
+                sh "find BackEnd/Amazon-clone/ -type f -exec sed  -i 's#Server=20.240.61.200#Server=10.20.34.102#g' {} +"
              }
          }
          stage ("Remove all containers and images"){
@@ -45,28 +45,28 @@ pipeline  {
         }
          stage ("Run MSSQL container"){
             steps{
-                withCredentials([string(credentialsId: 'MSSQL-PASSWORD', variable: 'MSSQLPASSWORD')]){
-                    sh 'docker run  --restart=always -v /home/db:/var/opt/mssql -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=$MSSQLPASSWORD" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest'
-                }
+                  withCredentials([string(credentialsId: 'MSSQL-PASSWORD',  variable: 'PASSWD')]){
+                sh 'docker run  --restart=always -v /home/db:/var/opt/mssql -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=$PASSWD" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest'
+                  }
             }
         }
         stage("Create frontend docker image") {
             steps {
                 echo 'Creating frontend docker image ...'
-                sh "cd FrontEnd/my-app && docker build --no-cache -t dowiz/frontend   . "                
+                sh "cd FrontEnd/my-app && docker build --no-cache -t macnaer/amazon-clone-frontend   . "                
             }
         }
          stage("Create backend docker image") {
             steps {
                 echo 'Creating backend docker image ...'
-                sh " cd BackEnd/Amazon-clone/ && docker build --no-cache -t dowiz/backend  . "
+                sh " cd BackEnd/Amazon-clone/ && docker build --no-cache -t macnaer/amazon-clone-backend  . "
             }
         }
          stage("docker frontend run") {
              steps {
                  echo " ============== Creating frontend docker container =================="
                  sh '''
-                 docker run -d --restart=always -p 80:80 --name=frontend dowiz/frontend
+                 docker run -d --restart=always -p 80:80 --name=frontend macnaer/amazon-clone-frontend
                  '''
              }
          }
@@ -74,7 +74,7 @@ pipeline  {
              steps {
                  echo " ============== Creating backend docker container =================="
                  sh '''
-                 docker run -d --restart=always -p 5034:5034 --name=backend dowiz/backend
+                 docker run -d --restart=always -p 5034:5034 --name=backend macnaer/amazon-clone-backend
                  '''
              }
         }
@@ -92,7 +92,7 @@ pipeline  {
             steps {
                 echo " ============== pushing amazon-clone-frontend image =================="
                 sh '''
-                docker push dowiz/frontend
+                docker push macnaer/amazon-clone-frontend
                 '''
             }
         }
@@ -100,7 +100,7 @@ pipeline  {
             steps {
                 echo " ============== pushing amazon-clone-backend image =================="
                 sh '''
-                docker push dowiz/backend
+                docker push macnaer/amazon-clone-backend
                 '''
             }
         }
