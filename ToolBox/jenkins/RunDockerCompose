@@ -9,8 +9,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker image prune -af
-                        docker system prune
+                        docker system prune -af
                     '''
                 }
                 script {
