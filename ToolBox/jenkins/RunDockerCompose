@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+    environment {
+        DB_PASSWORD = credentials('MSSQL-PASSWORD')
+    }
+    stages {
+        stage('Build and Deploy') {
+            steps {
+                script {
+                    sh 'docker-compose up -d'
+                }
+            }
+        }
+    }
+}
