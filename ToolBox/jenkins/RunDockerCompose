@@ -9,9 +9,15 @@ pipeline {
             steps {
                 script {
                     sh '''
+                        sudo docker image prune -af
+                        sudo docker system prune
+                    '''
+                }
+                script {
+                    sh '''
                         cd ./ToolBox/
                         docker compose up -d
-                        '''
+                    '''
                 }
             }
         }
