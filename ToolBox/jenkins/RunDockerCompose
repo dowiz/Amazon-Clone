@@ -8,7 +8,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        cd ..
+                        cd ./ToolBox/
                         docker-compose up -d
                         '''
                 }
