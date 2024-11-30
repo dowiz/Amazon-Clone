@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         DB_PASSWORD = credentials('MSSQL-PASSWORD')
+        DB_CREDENTIALS = credentials('DockerHub-Credentials')
     }
     stages {
         stage('Build and Deploy') {
@@ -9,8 +10,6 @@ pipeline {
                 script {
                     sh '''
                         cd ./ToolBox/
-                        pwd
-                        ls -l
                         docker compose up -d
                         '''
                 }
