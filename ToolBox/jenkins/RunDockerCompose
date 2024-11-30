@@ -10,7 +10,8 @@ pipeline {
                     sh '''
                         cd ./ToolBox/
                         pwd
-                        docker-compose up -d
+                        ls -l
+                        docker compose up -d
                         '''
                 }
             }
