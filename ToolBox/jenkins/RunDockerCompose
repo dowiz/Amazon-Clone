@@ -9,6 +9,7 @@ pipeline {
                 script {
                     sh '''
                         cd ./ToolBox/
+                        pwd
                         docker-compose up -d
                         '''
                 }
