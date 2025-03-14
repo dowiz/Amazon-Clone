@@ -1,4 +1,5 @@
-.DS_Store
-Terraform/variables.tf
-Terraform/.terraform*
-Terraform/terraform*
+.terraform
+/ToolBox/terraform/variables.tf
+/ToolBox/terraform/.terraform.lock.hcl
+/ToolBox/terraform/terraform.tfstate
+/ToolBox/terraform/terraform.tfstate.backup
