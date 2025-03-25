@@ -40,12 +40,16 @@ resource "aws_security_group" "JenkinsTerraformSG" {
 // Define the ingress rules
 resource "aws_security_group_rule" "ingress_rules" {
   for_each = {
-    "http"    = { from_port = 80, to_port = 80, description = "Allow HTTP" }
-    "https"   = { from_port = 443, to_port = 443, description = "Allow HTTPS" }
-    "jenkins" = { from_port = 8080, to_port = 8080, description = "Allow Jenkins" }
-    "mssql"   = { from_port = 1433, to_port = 1433, description = "Allow MSSQL" }
-    "backend" = { from_port = 5034, to_port = 5034, description = "Allow Backend" }
-    "ssh"     = { from_port = 22, to_port = 22, description = "Allow SSH" }
+    "ssh"           = { from_port = 22, to_port = 22, description = "Allow SSH" }
+    "http"          = { from_port = 80, to_port = 80, description = "Allow HTTP" }
+    "https"         = { from_port = 443, to_port = 443, description = "Allow HTTPS" }
+    "mssql"         = { from_port = 1433, to_port = 1433, description = "Allow MSSQL" }
+    "grafana"       = { from_port = 3000, to_port = 3000, description = "Allow Grafana" }
+    "backend"       = { from_port = 5034, to_port = 5034, description = "Allow Backend" }
+    "jenkins"       = { from_port = 8080, to_port = 8080, description = "Allow Jenkins" }
+    "sonarqube"     = { from_port = 9000, to_port = 9000, description = "Allow SonarQube" }
+    "prometheus"    = { from_port = 9090, to_port = 9090, description = "Allow Prometheus" }
+    "node_exporter" = { from_port = 9100, to_port = 9100, description = "Allow Node Exporter" }
   }
 
   type              = "ingress"
@@ -66,20 +70,6 @@ resource "aws_security_group_rule" "egress_rule" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.JenkinsTerraformSG.id
 }
-
-# resource "null_resource" "restore_jenkins_config" {
-#   provisioner "file" {
-#     source      = "/path/to/backup/jenkins/"
-#     destination = "/var/lib/jenkins/"
-#     connection {
-#       type     = "ssh"
-#       user     = "ubuntu"
-#       private_key = file(var.private_key_path)
-#       host     = aws_instance.Jenkins.public_ip
-#     }
-#   }
-#   depends_on = [aws_instance.Jenkins]
-# }
 
 resource "aws_eip_association" "eip_assoc" {
   instance_id   = aws_instance.Jenkins.id

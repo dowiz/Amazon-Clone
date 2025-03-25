@@ -54,9 +54,9 @@ password=$(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)
 echo $password
 
 # NEW ADMIN CREDENTIALS URL ENCODED USING BASH
-username="master"
+username="dowiz"
 new_password="Qwerty-1"
-fullname="master"
+fullname="dowiz"
 email="example@gmail.com"
 
 cookie_jar="$(mktemp)"
@@ -94,7 +94,7 @@ curl -X POST -u "$username:$new_password" $url/pluginManager/installPlugins \
   -H 'Content-Type: application/json' \
   -H 'Accept-Language: en,en-US;q=0.9,it;q=0.8' \
   --cookie $cookie_jar \
-  --data-raw "{'dynamicLoad':true,'plugins':['cloudbees-folder','antisamy-markup-formatter','build-timeout','credentials-binding','timestamper','ws-cleanup','ant','gradle','workflow-aggregator','github-branch-source','pipeline-github-lib','pipeline-stage-view','git','ssh-slaves','matrix-auth','pam-auth','ldap','email-ext','mailer'],'Jenkins-Crumb':'$only_crumb'}"
+--data-raw "{'dynamicLoad':true,'plugins':['cloudbees-folder','antisamy-markup-formatter','build-timeout','credentials-binding','timestamper','ws-cleanup','ant','gradle','workflow-aggregator','github-branch-source','pipeline-github-lib','pipeline-stage-view','git','ssh-slaves','matrix-auth','pam-auth','ldap','email-ext','mailer', 'configuration-as-code'],'Jenkins-Crumb':'$only_crumb'}"
 ###################################################################################
 
 ############################################### Confirm URL ###################################################
